@@ -35,6 +35,10 @@ export class Router {
                     document.body.style.height = '100vh';
                     new Login();
                 },
+                unload: () => {
+                    document.body.classList.remove('login-page');
+                    document.body.style.height = 'auto';
+                },
                 styles: ['icheck-bootstrap.min.css']
             },
             {
@@ -46,6 +50,10 @@ export class Router {
                     document.body.classList.add('register-page');
                     document.body.style.height = '100vh';
                     new SignUp();
+                },
+                unload: () => {
+                    document.body.classList.remove('register-page');
+                    document.body.style.height = 'auto';
                 },
                 styles: ['icheck-bootstrap.min.css']
             },
@@ -74,12 +82,26 @@ export class Router {
                 return;
             }
 
+            const currentRoute = window.location.pathname;
             history.pushState({},'', url);
-            await this.activateRoute();
+            await this.activateRoute(null, currentRoute);
         }
     }
 
-    async activateRoute() {
+    async activateRoute(e, oldRoute = null) {
+        if (oldRoute) {
+            const currentRoute = this.routes.find(item => item.route === oldRoute);
+            if (currentRoute.styles && currentRoute.styles.length > 0) {
+                currentRoute.styles.forEach(style => {
+                    document.querySelector(`link[href='/css/${style}']`).remove();
+                });
+            }
+
+            if (currentRoute.unload && typeof currentRoute.unload === 'function') {
+                currentRoute.unload();
+            }
+        }
+
         const urlRoute = window.location.pathname;
         const newRoute = this.routes.find(item => item.route === urlRoute);
 
@@ -98,7 +120,6 @@ export class Router {
             }
 
             if (newRoute.filePathTemplate) {
-                document.body.className = '';
                 let contentBlock = this.contentPageElement;
                 if (newRoute.useLayout) {
                     this.contentPageElement.innerHTML = await fetch(newRoute.useLayout).then(response => response.text());
