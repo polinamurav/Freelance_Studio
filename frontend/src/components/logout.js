@@ -1,8 +1,10 @@
+import {AuthUtils} from "../utils/auth-utils";
+
 export class Logout {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
-        if (!localStorage.getItem('accessToken') || !localStorage.getItem('refreshToken')) {
+        if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) || !AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)) {
             return this.openNewRoute('/login');
         }
 
@@ -24,9 +26,7 @@ export class Logout {
         const result = await response.json();
         console.log(result);
 
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
-        localStorage.removeItem('userInfo');
+        AuthUtils.removeAuthInfo();
 
         this.openNewRoute('/login');
     }

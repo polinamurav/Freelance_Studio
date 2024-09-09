@@ -1,9 +1,11 @@
+import {AuthUtils} from "../utils/auth-utils";
+
 export class SignUp {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute;
 
         //если пользователь уже зарегистрирован
-        if (localStorage.getItem('accessToken')) {
+        if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
             return this.openNewRoute('/');
         }
 
@@ -91,9 +93,7 @@ export class SignUp {
                 return;
             }
 
-            localStorage.setItem('accessToken', result.accessToken)
-            localStorage.setItem('refreshToken', result.refreshToken)
-            localStorage.setItem('userInfo', JSON.stringify({id: result.id, name: result.name}));
+            AuthUtils.setAuthInfo(result.accessToken, result.refreshToken, {id: result.id, name: result.name});
 
             this.openNewRoute('/');
         }
