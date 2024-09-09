@@ -1,6 +1,7 @@
 import {Dashboard} from "./components/dashboard";
 import {SignUp} from "./components/sign-up";
 import {Login} from "./components/login";
+import {Logout} from "./components/logout";
 
 export class Router {
     constructor() {
@@ -57,6 +58,12 @@ export class Router {
                 },
                 styles: ['icheck-bootstrap.min.css']
             },
+            {
+                route: '/logout',
+                load: () => {
+                    new Logout(this.openNewRoute.bind(this));
+                },
+            }
         ]
     }
 
