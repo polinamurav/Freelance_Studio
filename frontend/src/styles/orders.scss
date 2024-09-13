@@ -1,0 +1,14 @@
+.orders {
+  .order-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .table td, .table th {
+    padding: 0.55rem;
+  }
+}
