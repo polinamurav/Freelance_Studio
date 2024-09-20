@@ -13,17 +13,9 @@ export class FreelancersEdit {
             return this.openNewRoute('/');
         }
         document.getElementById('updateButton').addEventListener('click', this.updateFreelancer.bind(this));
-
         bsCustomFileInput.init();
-        this.nameInputElement = document.getElementById('nameInput');
-        this.lastNameInputElement = document.getElementById('lastNameInput');
-        this.emailInputElement = document.getElementById('emailInput');
-        this.educationInputElement = document.getElementById('educationInput');
-        this.locationInputElement = document.getElementById('locationInput');
-        this.skillsInputElement = document.getElementById('skillsInput');
-        this.infoInputElement = document.getElementById('infoInput');
-        this.avatarInputElement = document.getElementById('avatarInput');
-        this.levelSelectElement = document.getElementById('levelSelect');
+
+        this.findElements();
 
         this.validations = [
             {element: this.nameInputElement},
@@ -36,6 +28,18 @@ export class FreelancersEdit {
         ];
 
         this.getFreelancer(id).then();
+    }
+
+    findElements() {
+        this.nameInputElement = document.getElementById('nameInput');
+        this.lastNameInputElement = document.getElementById('lastNameInput');
+        this.emailInputElement = document.getElementById('emailInput');
+        this.educationInputElement = document.getElementById('educationInput');
+        this.locationInputElement = document.getElementById('locationInput');
+        this.skillsInputElement = document.getElementById('skillsInput');
+        this.infoInputElement = document.getElementById('infoInput');
+        this.avatarInputElement = document.getElementById('avatarInput');
+        this.levelSelectElement = document.getElementById('levelSelect');
     }
 
     async getFreelancer(id) {
